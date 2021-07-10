@@ -1,0 +1,31 @@
+{
+  "name": "node-express-server-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r dotenv/config --exec babel-node src/index.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "nodemon": "^2.0.11"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "install": "^0.13.0",
+    "jest": "^27.0.6",
+    "mongoose": "^5.13.2",
+    "mongoose-float": "^1.0.4",
+    "node-cron": "^3.0.0",
+    "npm": "^7.19.1",
+    "uuid": "^7.0.3"
+  }
+}
