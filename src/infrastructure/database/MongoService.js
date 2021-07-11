@@ -32,7 +32,9 @@ module.exports = class MongoService extends DBService {
                     { name: '4x Adm + Bird Feeding', guestType: 'local', price: 102 },
                     { name: '4x Adm + Bird Feeding', guestType: 'foreign', price: 88 }
                     ]);
-                await this.attractionRepository.add('A0002', 'Palawan Beach', 'Palawan Beach', 'Daily', []);
+                await this.attractionRepository.add('A0002', 'Palawan Beach', 'Palawan Beach', 'Daily', [
+                    { name: 'Free', guestType: 'all', price: 0 }, 
+                ]);
                 await this.attractionRepository.add('A0003', 'iFly Singapore', 'Beach Station', 'Daily', [
                     { name: 'Challenge Package 2 Skydive', guestType: 'local', price: 89 }, 
                     { name: 'Challenge Package 2 Skydive', guestType: 'foreign', price: 119 },
@@ -60,7 +62,7 @@ module.exports = class MongoService extends DBService {
                     ]);
 
                 //await this.attractionRepository.getAll().then(data => console.log('result', data));
-
+                //await this.attractionRepository.getByPriceRange(0, 0).then(data => console.log('result', data[0].tickets));
 
             })
             .catch(error => {

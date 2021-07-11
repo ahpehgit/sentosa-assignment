@@ -47,6 +47,40 @@ module.exports = class MongoAttractionRepository extends AttractionRepository {
         });
     }
 
+    async getByAttractionId(attraction_id) {
+        const filter = {
+            'attraction_id': { $eq: attraction_id }
+        };
+
+        const d = await Model.findOne(filter);
+
+        return d ? new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets) : null;
+    }
+
+    async getByLocations(locations) {
+        const filter = {
+            'location': { $in: locations }
+        };
+
+        const data = await Model.find(filter);
+
+        return data.map((d) => {
+            return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets);
+        });
+    }
+
+    async getByPriceRange(min, max) {
+        const filter = {
+            'tickets.price': { $gte: min, $lte: max }
+        };
+
+        const data = await Model.find(filter);
+
+        return data.map((d) => {
+            return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets);
+        });
+    }
+
     async deleteAll() {
         return await Model.deleteMany({})
             .then(() => {

@@ -8,6 +8,18 @@ module.exports = class AttractionRepository {
     getAll() {
         return Promise.reject(new Error('Method not implemented'));
     }
+
+    getByAttractionId(attraction_id) {
+        return Promise.reject(new Error('Method not implemented'));
+    }
+
+    getByLocations(locations) {
+        return Promise.reject(new Error('Method not implemented'));
+    }
+
+    getByPriceRange(min, max) {
+        return Promise.reject(new Error('Method not implemented'));
+    }
     
     deleteAll() {
        return Promise.reject(new Error('Method not implemented'));
