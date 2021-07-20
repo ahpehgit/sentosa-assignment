@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const DBService = require('../../application/contracts/DBService');
 const SampleRepository = require('./MongoSampleRepository');
 const AttractionRepository = require('./MongoAttractionRepository');
+const PurchaseRepository = require('./MongoPurchaseRepository');
 
 module.exports = class MongoService extends DBService {
     constructor() {
         super();
         this.sampleRepository = new SampleRepository();
         this.attractionRepository = new AttractionRepository();
+        this.purchaseRepository = new PurchaseRepository();
     }
 
     async initDatabase() {
@@ -63,6 +65,26 @@ module.exports = class MongoService extends DBService {
 
                 //await this.attractionRepository.getAll().then(data => console.log('result', data));
                 //await this.attractionRepository.getByPriceRange(0, 0).then(data => console.log('result', data[0].tickets));
+
+                await this.purchaseRepository.add(
+                    'Cash', 
+                    'John Doe',
+                    'john.doe@emal.com',
+                    '12345678',
+                    'somepromocode',
+                    120.50,
+                    120.10,
+                    [{
+                        attraction_id: 'A0008',
+                        quantity: 4,
+                        ticket: { name: 'Adm Premium Seat', guestType: 'local', price: 19 }
+                    },
+                    {
+                        attraction_id: 'A0006',
+                        quantity: 2,
+                        ticket: { name: 'Adm Adult', guestType: 'adult', price: 20 }
+                    }
+                    ]);
 
             })
             .catch(error => {

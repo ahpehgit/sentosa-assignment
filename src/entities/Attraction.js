@@ -1,10 +1,4 @@
-class Ticket {
-    constructor(name, guestType, price) {
-        this.name = name;
-        this.guestType = guestType;
-        this.price = price;
-    }
-}
+const Ticket = require('./Ticket');
 
 module.exports = class Attraction {
     constructor(id, attraction_id, name, location, available, tickets) {
