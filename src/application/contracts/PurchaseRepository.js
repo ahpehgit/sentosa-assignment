@@ -9,7 +9,7 @@ module.exports = class PurchaseRepository {
         return Promise.reject(new Error('Method not implemented'));
     }
 
-    getByTIcketNumber(ticket_number) {
+    getByTicketNumber(ticket_number) {
         return Promise.reject(new Error('Method not implemented'));
     }
 

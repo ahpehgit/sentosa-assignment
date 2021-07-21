@@ -1,5 +1,6 @@
 const GetByLocations = require('../application/use_cases/GetByLocations');
 const GetByAttractionId = require('../application/use_cases/GetByAttractionId');
+const GetByPriceRange = require('../application/use_cases/GetByPriceRange');
 
 module.exports = (dependencies) => {
 
@@ -8,7 +9,7 @@ module.exports = (dependencies) => {
     const getByAttractionIdRoute = (req, res, next) => {
         //localhost:3000/attraction/getByAttractionId/:attractionId
 
-        const query = GetByAttractionIdRoute(attractionRepository);
+        const query = GetByAttractionId(attractionRepository);
 
         query.Execute(req.params.attractionId).then((data) => {
             if (data) {
@@ -44,8 +45,29 @@ module.exports = (dependencies) => {
         }
     };
 
+    const getByPriceRangeRoute = (req, res, next) => {
+        //localhost:3000/attraction/getByPriceRange/?min=value&max=value
+
+        const query = GetByPriceRange(attractionRepository);
+
+        const min = req.query.min;
+        const max = req.query.max;
+
+        query.Execute(min, max).then((data) => {
+            if (data) {
+                res.json(data);
+            }
+            else {
+                res.sendStatus(401);
+            }
+        }, (err) => {
+            next(err);
+        });
+    }
+
     return {
         getByAttractionIdRoute,
         getByLocationsRoute,
+        getByPriceRangeRoute,
     };
 }

@@ -11,6 +11,7 @@ const attractionRouter = (dependencies) => {
     const controller = AttractionController(dependencies);
     router.get('/getByAttractionId/:attractionId', controller.getByAttractionIdRoute);
     router.get('/getByLocations/:locations', controller.getByLocationsRoute);
+    router.get('/getByPriceRange/', controller.getByPriceRangeRoute);
 
     return router;
 };

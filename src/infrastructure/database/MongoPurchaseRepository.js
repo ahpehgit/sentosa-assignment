@@ -60,8 +60,14 @@ module.exports = class MongoPurchaseRepository extends PurchaseRepository {
         });
     }
 
-    async getByTIcketNumber(ticket_number) {
-        return Promise.reject(new Error('Method not implemented'));
+    async getByTicketNumber(ticket_number) {        
+        const filter = {
+            'ticket_number': { $eq: ticket_number }
+        };
+
+        const d = await Model.findOne(filter);
+
+        return d ? new Purchase(d._id, d.ticket_number, d.payment_mode, d.name, d.email, d.mobile, d.promo_code, d.subtotal, d.paid, d.purchaseTickets) : null;
     }
 
     async deleteAll() {
