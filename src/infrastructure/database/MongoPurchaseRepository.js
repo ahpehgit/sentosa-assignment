@@ -29,7 +29,7 @@ const Model = mongoose.model('Purchase', PurchaseSchema);
 
 module.exports = class MongoPurchaseRepository extends PurchaseRepository {
 
-	async add(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets) {
+	async create(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets) {
 		const dd = new DateJS();
 		const mUUID1 = MUUID.v1();
 

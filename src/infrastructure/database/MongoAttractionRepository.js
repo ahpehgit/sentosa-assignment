@@ -20,7 +20,7 @@ const Model = mongoose.model('Attraction', AttractionSchema);
 module.exports = class MongoAttractionRepository extends AttractionRepository {
 	async add(attraction_id, name, location, available, tickets) {
 
-        //const tickets = [{guestType: 'local', price: 1.01}, {guestType: 'foreign trash', price: 100.10}];
+        //const tickets = [{guestType: 'local', price: 1.01}, {guestType: 'foreigner', price: 100.10}];
 
         const AttractionModel = new Model({attraction_id, name, location, available, tickets});
 
@@ -71,14 +71,20 @@ module.exports = class MongoAttractionRepository extends AttractionRepository {
 
     async getByPriceRange(min, max) {
         const filter = {
-            'tickets.price': { $gte: min, $lte: max }
+            'tickets.price': { $gte: min, $lte: max },
         };
 
         const data = await Model.find(filter);
 
         return data.map((d) => {
-            return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets);
-        });
+            const tickets = d.tickets.filter(ticket => ticket.price >= min && ticket.price <= max);
+            if (tickets.length > 0)
+                return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, tickets);
+            else 
+                null
+
+            //return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets);
+        }).filter(d => d != null);
     }
 
     async deleteAll() {

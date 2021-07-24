@@ -10,6 +10,7 @@ const purchaseRouter = (dependencies) => {
     // load controller with dependencies
     const controller = PurchaseController(dependencies);
     router.get('/getByTickerNumber/:tickerNumber', controller.getByTickerNumberRoute);
+    router.post('/createPurchase', controller.createPurchaseRoute);
     
     return router;
 };

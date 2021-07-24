@@ -1,7 +1,7 @@
 module.exports = class PurchaseRepository {
     constructor() { }
 
-    add(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets) {
+    create(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets) {
         return Promise.reject(new Error('Method not implemented'));
     }
 
