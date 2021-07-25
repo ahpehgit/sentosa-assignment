@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const DBService = require('../../application/contracts/DBService');
 const SampleRepository = require('./MongoSampleRepository');
 const AttractionRepository = require('./MongoAttractionRepository');
 const PurchaseRepository = require('./MongoPurchaseRepository');
+const AuthorisedUserRepository = require('./MongoAuthorisedUserRepository');
 
 module.exports = class MongoService extends DBService {
     constructor() {
@@ -10,6 +12,7 @@ module.exports = class MongoService extends DBService {
         this.sampleRepository = new SampleRepository();
         this.attractionRepository = new AttractionRepository();
         this.purchaseRepository = new PurchaseRepository();
+        this.authorisedUserRepository = new AuthorisedUserRepository()
     }
 
     async initDatabase() {
@@ -27,6 +30,7 @@ module.exports = class MongoService extends DBService {
 
                 await this.attractionRepository.deleteAll();
                 await this.purchaseRepository.deleteAll();
+                await this.authorisedUserRepository.deleteAll();
 
                 await this.attractionRepository.add('A0001', 'Butterfly Park & Insect Kingdom', 'Imbiah Station', 'Daily', [
                     { name: 'Adm + Bird Feeding', guestType: 'local', price: 22 }, 
@@ -85,6 +89,11 @@ module.exports = class MongoService extends DBService {
                         ticket: { name: 'Adm Adult', guestType: 'adult', price: 20 }
                     }],
                     '20210725-2a254a20ecfd11eb95168ba1e6d11779');
+
+                //* Insert sample user 'admin' to use for login later
+                const saltRounds = 10;
+                const hash = bcrypt.hashSync('somepassword', saltRounds);
+                await this.authorisedUserRepository.add({name: 'admin', password: hash});
 
             })
             .catch(error => {

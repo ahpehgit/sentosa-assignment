@@ -1,5 +1,6 @@
 const express = require('express');
 const PurchaseController = require('../controllers/PurchaseController');
+const AuthenticateController = require('../controllers/AuthenticateController');
 
 // address - /<host>:<port>/purchase
 // load dependencies
@@ -9,8 +10,10 @@ const purchaseRouter = (dependencies) => {
 
     // load controller with dependencies
     const controller = PurchaseController(dependencies);
-    router.get('/getByTickerNumber/:tickerNumber', controller.getByTickerNumberRoute);
-    router.post('/createPurchase', controller.createPurchaseRoute);
+    const authenticateController = AuthenticateController(dependencies);
+
+    router.get('/getByTickerNumber/:tickerNumber', authenticateController.authenticateToken, controller.getByTickerNumberRoute);
+    router.post('/createPurchase', authenticateController.authenticateToken, controller.createPurchaseRoute);
     
     return router;
 };

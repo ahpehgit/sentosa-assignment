@@ -3,10 +3,18 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 
 require('dotenv').config();
 
+const authorisedUser = 'admin';
+const authorisedPassword = 'somepassword';
+
 const Login = async(user, password) => {
     let res = '';
 
-    await axios.get(`http://localhost:${process.env.PORT}/login/?name=${user}&password=${password}`) 
+    const body = {
+        name: user,
+        password: password,
+    };
+
+    await axios.post(`http://localhost:${process.env.PORT}/login`, body)
     .then(response => {
         res = response.data;
     }).catch(err => {
@@ -27,9 +35,14 @@ const FetchStatusCode = async(url) => {
     return res;
 }
 
-const FetchResponseStatus = async(url) => {
+const FetchResponseStatus = async(url, withToken = true) => {
     let res = '';
-    await axios.get(url) 
+
+    const config = withToken ? {
+        headers: { Authorization: `Bearer ${await Login(authorisedUser, authorisedPassword)}` }
+    } : {};
+
+    await axios.get(url, config) 
     .then(response => {
         res = response.data.success;
     }).catch(err => {
@@ -38,9 +51,14 @@ const FetchResponseStatus = async(url) => {
     return res;
 }
 
-const FetchResponse = async(url) => {
+const FetchResponse = async(url, withToken = true) => {
     let res = '';
-    await axios.get(url) 
+
+    const config = withToken ? {
+        headers: { Authorization: `Bearer ${await Login(authorisedUser, authorisedPassword)}` }
+    } : {};
+
+    await axios.get(url, config) 
     .then(response => {
         //console.log('data', response.data.data)
         res = response.data.data;
@@ -50,9 +68,14 @@ const FetchResponse = async(url) => {
     return res;
 }
 
-const PostRequest = async(url, body) => {
+const PostRequest = async(url, body, withToken = true) => {
     let res = '';
-    await axios.post(url, body) 
+
+    const config = withToken ? {
+        headers: { Authorization: `Bearer ${await Login(authorisedUser, authorisedPassword)}` }
+    } : {};
+
+    await axios.post(url, body, config) 
     .then(response => {
         //console.log('response', response.data.data)
         res = response.data.data;
@@ -62,12 +85,24 @@ const PostRequest = async(url, body) => {
     return res;
 }
 
+it('Login with correct credentials', async() => {
+    expect(await Login(authorisedUser, authorisedPassword)).toEqual(expect.not.stringContaining('Unauthorized'));
+});
+
+it('Login with wrong credentials', async() => {
+    expect(await Login(authorisedUser, 'wrongpassword')).toEqual(401);
+});
+
 it('Get by attraction id A0002', async() => {
     expect(await FetchResponseStatus(`${process.env.SERVER}/attraction/getByAttractionId/A0002`)).toEqual(true);
 });
 
 it('Get by invalid attraction id A00021', async() => {
     expect(await FetchResponseStatus(`${process.env.SERVER}/attraction/getByAttractionId/A00021`)).toEqual(false);
+});
+
+it('Get by attraction id A0002 w/o token', async() => {
+    expect(await FetchResponseStatus(`http://localhost:${process.env.PORT}/attraction/getByAttractionId/A0002`, false)).toEqual(401);
 });
 
 it('Get by locations \'Palawan Beach\', \'Resorts World Station\'', async() => {
