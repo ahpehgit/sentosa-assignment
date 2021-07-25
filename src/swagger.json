@@ -1,0 +1,419 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sentosa API",
+    "description": "Sentosa Assignment APIs",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Attractions",
+      "description": "API for attraction in the system"
+    },
+    {
+      "name": "Login",
+      "description": "API for login in the system"
+    },
+    {
+      "name": "Purchase",
+      "description": "API for purchase in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "description": "Login for the api",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "description": "User account name to login"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "description": "User password to login"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Login is successful"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/attraction/getByAttractionId/{id}": {
+      "get": {
+        "tags": ["Attractions"],
+        "description": "Get attraction by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Attraction id to query",
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Login token to be passed as a header",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Result is returned"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/attraction/getByLocations/{locations}": {
+      "get": {
+        "tags": ["Attractions"],
+        "description": "Get attraction by locations",
+        "parameters": [
+          {
+            "name": "locations",
+            "in": "path",
+            "required": true,
+            "description": "Attraction locations to query. Locations is stringnify array",
+            "type": "array"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Login token to be passed as a header",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Result is returned"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/attraction/getByPriceRange/": {
+      "get": {
+        "tags": ["Attractions"],
+        "description": "Get attraction by price range",
+        "parameters": [
+          {
+            "name": "min",
+            "in": "query",
+            "required": true,
+            "description": "Min value to query",
+            "type": "integer"
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "required": true,
+            "description": "Max value to query",
+            "type": "integer"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Login token to be passed as a header",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Result is returned"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/purchase/getByTickerNumber/{ticker_number}": {
+      "get": {
+        "tags": ["Purchase"],
+        "description": "Get ticket by ticket number",
+        "parameters": [
+          {
+            "name": "ticket_number",
+            "in": "path",
+            "required": true,
+            "description": "Ticket number to query",
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Login token to be passed as a header",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Result is returned"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/purchase/createPurchase/": {
+      "post": {
+        "tags": ["Purchase"],
+        "description": "Login for the api",
+        "parameters": [
+          {
+            "name": "payment_mode",
+            "in": "body",
+            "required": true,
+            "description": "Payment mode"
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "description": "Name of customer"
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "description": "Email of customer"
+          },
+          {
+            "name": "mobile",
+            "in": "body",
+            "required": true,
+            "description": "Mobile of customer"
+          },
+          {
+            "name": "promo_code",
+            "in": "body",
+            "required": true,
+            "description": "Promo code"
+          },
+          {
+            "name": "subtotal",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "Float"
+            },
+            "description": "Subtotal purchase"
+          },
+          {
+            "name": "paid",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "Float"
+            },
+            "description": "Paid purchase"
+          },
+          {
+            "name": "purchaseTickets",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "attraction_id": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "integer"
+                  },
+                  "ticket": {
+                    "$ref": "#/definitions/Ticket"
+                  }
+                }
+              }
+            },
+            "example": {
+              "payment_mode": "Cash", 
+              "name": "Johnny Cash",
+              "email": "johnny.cash@email.com",
+              "mobile": 92425233,
+              "promo_code": "",
+              "subtotal": 120.50,
+              "paid": 120.10,
+              "purchaseTickets": [{
+                  "attraction_id": "A0008",
+                  "quantity": 4,
+                  "ticket": { "name": "Adm Premium Seat", "guestType": "local", "price": 19 }
+              },
+              {
+                  "attraction_id": "A0006",
+                  "quantity": 2,
+                  "ticket": { "name": "Adm Adult", "guestType": "adult", "price": 20 }
+              }]
+            },
+            "description": "Purchase tickets details"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Ticket is created"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthorisedUser": {
+      "required": ["_id","user","password"],
+      "properties": {
+        "_id": {
+          "type": "UUID",
+          "uniqueItems": true
+        },
+        "user": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Attraction": {
+      "required": ["_id","attraction_id","name", "location", "available", "tickets"],
+      "properties": {
+        "_id": {
+          "type": "UUID",
+          "uniqueItems": true
+        },
+        "attraction_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "available": {
+          "type": "string",
+          "enum": ["Daily", "Closed", "Weekend"]
+        },
+        "tickets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ticket"
+          }
+        }
+      }
+    },
+    "Purchase": {
+      "required": ["_id","ticket_number","payment_mode", "name", "email", "mobile", "promo_code", "subtotal", "paid", "purchaseTickets"],
+      "properties": {
+        "_id": {
+          "type": "UUID",
+          "uniqueItems": true
+        },
+        "ticket_number": {
+          "type": "string"
+        },
+        "payment_mode": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "promo_code": {
+          "type": "string"
+        },
+        "subtotal": {
+          "type": "Float"
+        },
+        "paid": {
+          "type": "Float"
+        },
+        "purchaseTickets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attraction_id": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "ticket": {
+                "$ref": "#/definitions/Ticket"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Ticket": {
+      "required": ["name","guestType", "price"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "guestType": {
+          "type": "string",
+          "enum": ["local", "foreign", "adult", "child"]
+        },
+        "price": {
+          "type": "Float"
+        }
+      }
+    },
+    "Response": {
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -29,6 +29,7 @@
     "mongoose-float": "^1.0.4",
     "node-cron": "^3.0.0",
     "npm": "^7.19.1",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^7.0.3",
     "uuid-mongodb": "^2.4.4"
   }
