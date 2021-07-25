@@ -20,11 +20,9 @@ const Model = mongoose.model('Attraction', AttractionSchema);
 module.exports = class MongoAttractionRepository extends AttractionRepository {
 	async add(attraction_id, name, location, available, tickets) {
 
-        //const tickets = [{guestType: 'local', price: 1.01}, {guestType: 'foreigner', price: 100.10}];
-
         const AttractionModel = new Model({attraction_id, name, location, available, tickets});
 
-        await AttractionModel.save()
+        return await AttractionModel.save()
         .then((d) => {
             console.log(`Attraction ${d.name} with id: ${d.attraction_id} inserted`); 
 
@@ -81,9 +79,7 @@ module.exports = class MongoAttractionRepository extends AttractionRepository {
             if (tickets.length > 0)
                 return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, tickets);
             else 
-                null
-
-            //return new Attraction(d._id, d.attraction_id, d.name, d.location, d.available, d.tickets);
+                null;
         }).filter(d => d != null);
     }
 

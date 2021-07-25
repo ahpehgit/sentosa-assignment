@@ -42,7 +42,19 @@ const FetchResponse = async(url) => {
     let res = '';
     await axios.get(url) 
     .then(response => {
-        console.log('data', response.data.data)
+        //console.log('data', response.data.data)
+        res = response.data.data;
+    }).catch(err => {
+        res = err.response.status;
+    });
+    return res;
+}
+
+const PostRequest = async(url, body) => {
+    let res = '';
+    await axios.post(url, body) 
+    .then(response => {
+        //console.log('response', response.data.data)
         res = response.data.data;
     }).catch(err => {
         res = err.response.status;
@@ -82,6 +94,56 @@ it('Get by price range between 23, 30', async() => {
     await FetchResponse(`${process.env.SERVER}/attraction/getByPriceRange/?min=23&max=30`)
     .then(response => {
         expect(response).not.toEqual(null);
+    });
+});
+
+it('Get by ticket number', async() => {
+    const ticket_number = '20210725-2a254a20ecfd11eb95168ba1e6d11779';
+
+    await FetchResponse(`${process.env.SERVER}/purchase/getByTickerNumber/${ticket_number}`)
+    .then(response => {
+        expect(response).not.toEqual(null);
+    });
+});
+
+it('Get by wrong ticket number', async() => {
+    const ticket_number = '20210725-';
+
+    await FetchResponse(`${process.env.SERVER}/purchase/getByTickerNumber/${ticket_number}`)
+    .then(response => {
+        expect(response).toEqual(null);
+    });
+});
+
+it('Create purchase', async() => {
+    const body = {
+        payment_mode: 'Cash', 
+        name: 'Johnny Cash',
+        email: 'johnny.cash@emal.com',
+        mobile: '92425233',
+        promo_code: '',
+        subtotal: 120.50,
+        paid: 120.10,
+        purchaseTickets: [{
+            attraction_id: 'A0008',
+            quantity: 4,
+            ticket: { name: 'Adm Premium Seat', guestType: 'local', price: 19 }
+        },
+        {
+            attraction_id: 'A0006',
+            quantity: 2,
+            ticket: { name: 'Adm Adult', guestType: 'adult', price: 20 }
+        }],
+    };
+
+    await PostRequest(`${process.env.SERVER}/purchase/createPurchase/`, body)
+    .then(async(response) => {
+        expect(response).not.toEqual(null);
+
+        await FetchResponse(`${process.env.SERVER}/purchase/getByTickerNumber/${response.ticket_number}`)
+        .then(response => {
+            expect(response).not.toEqual(null);
+        });
     });
 });
 

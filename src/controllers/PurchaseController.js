@@ -8,7 +8,7 @@ module.exports = (dependencies) => {
 	const getByTickerNumberRoute = (req, res, next) => {
         //localhost:3000/purchase/getByTickerNumber/:tickerNumber
 
-        const query = GetByTicketNumber(attractionRepository);
+        const query = GetByTicketNumber(purchaseRepository);
 
         query.Execute(req.params.tickerNumber).then((data) => {
             if (data) {
@@ -35,8 +35,9 @@ module.exports = (dependencies) => {
         const subtotal = req.body.subtotal;
         const paid =  req.body.paid;
         const purchaseTickets = req.body.purchaseTickets;
+        const ticket_num = req.body.ticket_num;
 
-        query.Execute(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets).then((data) => {
+        query.Execute(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets, ticket_num).then((data) => {
             if (data) {
                 res.json(data);
             }

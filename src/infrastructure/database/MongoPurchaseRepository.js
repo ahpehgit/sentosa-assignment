@@ -29,14 +29,14 @@ const Model = mongoose.model('Purchase', PurchaseSchema);
 
 module.exports = class MongoPurchaseRepository extends PurchaseRepository {
 
-	async create(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets) {
+	async create(payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets, ticket_num = '') {
 		const dd = new DateJS();
 		const mUUID1 = MUUID.v1();
 
-		const ticket_number = dd.yyyymmdd() + '-' + mUUID1.toString('N');
+		const ticket_number = ticket_num !== '' ? ticket_num : dd.yyyymmdd() + '-' + mUUID1.toString('N');
 		const PurchaseModel = new Model({ticket_number, payment_mode, name, email, mobile, promo_code, subtotal, paid, purchaseTickets});
 
-        await PurchaseModel.save()
+        return await PurchaseModel.save()
         .then((d) => {
             console.log(`Purchase for ${d.name} with ticket number: ${d.ticket_number} inserted`); 
 

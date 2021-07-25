@@ -26,8 +26,8 @@ module.exports = class MongoService extends DBService {
                 console.log("Mongo Database created!");
 
                 await this.attractionRepository.deleteAll();
+                await this.purchaseRepository.deleteAll();
 
-                //const tickets = [{guestType: 'local', price: 1.01}, {guestType: 'foreigner', price: 100.10}];
                 await this.attractionRepository.add('A0001', 'Butterfly Park & Insect Kingdom', 'Imbiah Station', 'Daily', [
                     { name: 'Adm + Bird Feeding', guestType: 'local', price: 22 }, 
                     { name: 'Adm + Bird Feeding', guestType: 'foreign', price: 18 },
@@ -66,7 +66,6 @@ module.exports = class MongoService extends DBService {
                 //await this.attractionRepository.getAll().then(data => console.log('result', data));
                 await this.attractionRepository.getByPriceRange(23, 30).then(data => console.log('result', data));
                 
-                /*
                 await this.purchaseRepository.create(
                     'Cash', 
                     'John Doe',
@@ -84,9 +83,8 @@ module.exports = class MongoService extends DBService {
                         attraction_id: 'A0006',
                         quantity: 2,
                         ticket: { name: 'Adm Adult', guestType: 'adult', price: 20 }
-                    }
-                    ]);
-                */
+                    }],
+                    '20210725-2a254a20ecfd11eb95168ba1e6d11779');
 
             })
             .catch(error => {
