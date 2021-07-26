@@ -14,7 +14,7 @@ const Login = async(user, password) => {
         password: password,
     };
 
-    await axios.post(`http://localhost:${process.env.PORT}/login`, body)
+    await axios.post(`${process.env.SERVER}/login`, body)
     .then(response => {
         res = response.data;
     }).catch(err => {
@@ -102,7 +102,7 @@ it('Get by invalid attraction id A00021', async() => {
 });
 
 it('Get by attraction id A0002 w/o token', async() => {
-    expect(await FetchResponseStatus(`http://localhost:${process.env.PORT}/attraction/getByAttractionId/A0002`, false)).toEqual(401);
+    expect(await FetchResponseStatus(`${process.env.SERVER}/attraction/getByAttractionId/A0002`, false)).toEqual(401);
 });
 
 it('Get by locations \'Palawan Beach\', \'Resorts World Station\'', async() => {
