@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const DBService = require('../../application/contracts/DBService');
-const SampleRepository = require('./MongoSampleRepository');
 const AttractionRepository = require('./MongoAttractionRepository');
 const PurchaseRepository = require('./MongoPurchaseRepository');
 const AuthorisedUserRepository = require('./MongoAuthorisedUserRepository');
@@ -9,7 +8,6 @@ const AuthorisedUserRepository = require('./MongoAuthorisedUserRepository');
 module.exports = class MongoService extends DBService {
     constructor() {
         super();
-        this.sampleRepository = new SampleRepository();
         this.attractionRepository = new AttractionRepository();
         this.purchaseRepository = new PurchaseRepository();
         this.authorisedUserRepository = new AuthorisedUserRepository()
@@ -18,11 +16,7 @@ module.exports = class MongoService extends DBService {
     async initDatabase() {
         const dbName = "sentosa_db";
         let url = `mongodb://${process.env.MONGO_HOSTNAME}:27017/${dbName}`; //mongoserver is service name of mongo in dockers
-        
-        if (process.env.ENVIRONMENT && process.env.ENVIRONMENT === "production") {
-            url = `mongodb+srv://user:pb6dbaV24MvFLWiy@${process.env.MONGO_HOSTNAME}/${dbName}?retryWrites=true&w=majority`;
-        }
-        
+
         return setTimeout(() => {
             return mongoose.connect(url, { useNewUrlParser: true })
                 .then(async () => {
@@ -68,8 +62,9 @@ module.exports = class MongoService extends DBService {
                     ]);
 
                 //await this.attractionRepository.getAll().then(data => console.log('result', data));
-                await this.attractionRepository.getByPriceRange(23, 30).then(data => console.log('result', data));
+                //await this.attractionRepository.getByPriceRange(23, 30).then(data => console.log('result', data));
                 
+                //* Sample purchase
                 await this.purchaseRepository.create(
                     'Cash', 
                     'John Doe',
@@ -89,7 +84,7 @@ module.exports = class MongoService extends DBService {
                         ticket: { name: 'Adm Adult', guestType: 'adult', price: 20 }
                     }],
                     '20210725-2a254a20ecfd11eb95168ba1e6d11779');
-
+                
                 //* Insert sample user 'admin' to use for login later
                 const saltRounds = 10;
                 const hash = bcrypt.hashSync('somepassword', saltRounds);
