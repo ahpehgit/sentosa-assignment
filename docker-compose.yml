@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  nodeapp:
+    container_name: nodeapp
+    restart: always
+    build: .
+    ports:
+      - "3000:3001"
+    links:
+      - mongoserver
+    depends_on:
+      - mongoserver
+  mongoserver:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
