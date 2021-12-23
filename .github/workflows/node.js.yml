@@ -22,7 +22,8 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         
       - name: MongoDB in GitHub Actions
         # You may pin to the exact commit or the version.
@@ -65,7 +66,7 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v0.2.7
       
-      - name: npm install, build and test
+      - name: NPM install, build and test
         run: | 
           npm ci
           npm start --if-present
