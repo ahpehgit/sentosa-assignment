@@ -23,7 +23,7 @@ jobs:
         uses: iFaxity/wait-on-action@v1
         with:
           resource: https://google.com
-          delay: 300
+          delay: 30000
           verbose: true
           
       - name: NPM jest
@@ -31,4 +31,4 @@ jobs:
           npm ci
           npm test
           wait-on: 'https://google.com'
-          wait-on-timeout: 300
+          wait-on-timeout: 30000
