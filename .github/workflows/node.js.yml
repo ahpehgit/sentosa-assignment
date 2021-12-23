@@ -23,7 +23,7 @@ jobs:
         uses: iFaxity/wait-on-action@v1
         with:
           resource: https://google.com
-          delay: 30000
+          delay: 60000
           verbose: true
           
       - name: NPM jest
