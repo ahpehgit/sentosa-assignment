@@ -86,14 +86,14 @@ jobs:
         uses: iFaxity/wait-on-action@v1
         with:
           resource: http://localhost:3000
-          delay: 60000
+          delay: 3000
           
       - name: NPM jest
         run: | 
           npm ci
           npm test
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 60000
+          wait-on-timeout: 3000
   #lint:
   #  runs-on: ubuntu-latest
   #  steps:
