@@ -66,14 +66,30 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v0.2.7
       
+      - name: Wait on
+        # You may pin to the exact commit or the version.
+        # uses: iFaxity/wait-on-action@63d56fe931cdde4fc340587a28ad8d5c461e7d16
+        uses: iFaxity/wait-on-action@v1
+        with:
+          tcp: localhost:3000
+            
       - name: NPM install, build and test
         run: | 
           npm ci
           npm run build --if-present
-          npm start & npm test
-          # npm test
+          #npm start & npm test
+          npm start
         env:
           CI: true
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM jest
+        run: | 
+          npm ci
+          npm test
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 3000
   #lint:
   #  runs-on: ubuntu-latest
   #  steps:
