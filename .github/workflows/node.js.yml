@@ -11,69 +11,6 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        #node-version: [12.x, 14.x, 16.x]
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: MongoDB in GitHub Actions
-        # You may pin to the exact commit or the version.
-        # uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df
-        uses: supercharge/mongodb-github-action@1.7.0
-        with:
-          # MongoDB version to use (default "latest")
-          mongodb-version: latest # optional, default is latest
-          # MongoDB replica set name (no replica set by default)
-          mongodb-replica-set: no # optional, default is 
-          # MongoDB port to use (default 27017)
-          mongodb-port: 27017 # optional, default is 27017
-          # MongoDB db to create (default: none)
-          mongodb-db: none # optional, default is 
-          # MongoDB root username (default: none)
-          mongodb-username: none # optional, default is 
-          # MongoDB root password (default: none)
-          mongodb-password: none # optional, default is 
-    
-      - name: Create env file
-        run: |
-          echo touch .env
-          echo SERVER="http://localhost:300" >> .env
-          echo MONGO_HOSTNAME="localhost" >> .env
-          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
-          cat .env
-          
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          # cache: 'npm'
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-    
-      - name: Dotenv Action
-        uses: falti/dotenv-action@v0.2.7
-            
-      - name: NPM install, build and test
-        run: | 
-          npm ci
-          npm run build --if-present
-          #npm start & npm test
-          npm start
-        env:
-          CI: true
   test:
     runs-on: ubuntu-latest
     steps:
@@ -85,23 +22,13 @@ jobs:
         # uses: iFaxity/wait-on-action@63d56fe931cdde4fc340587a28ad8d5c461e7d16
         uses: iFaxity/wait-on-action@v1
         with:
-          resource: http://localhost:3000
-          delay: 3000
+          resource: https://google.com
+          delay: 300
+          verbose: true
           
       - name: NPM jest
         run: | 
           npm ci
           npm test
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 3000
-  #lint:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v2
-      
-  #    - name: Super-Linter
-  #      uses: github/super-linter@v4.8.5
-  #      env:
-          # VALIDATE_ALL_CODEBASE: false
-          # DEFAULT_BRANCH: master
-  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          wait-on: 'https://google.com'
+          wait-on-timeout: 300
