@@ -71,7 +71,8 @@ jobs:
         # uses: iFaxity/wait-on-action@63d56fe931cdde4fc340587a28ad8d5c461e7d16
         uses: iFaxity/wait-on-action@v1
         with:
-          tcp: localhost:3000
+          resource: http://localhost:3000
+          delay: 3000
             
       - name: NPM install, build and test
         run: | 
@@ -91,7 +92,7 @@ jobs:
           npm ci
           npm test
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 3000
+          wait-on-timeout: 60000
   #lint:
   #  runs-on: ubuntu-latest
   #  steps:
