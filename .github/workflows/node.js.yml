@@ -49,7 +49,16 @@ jobs:
           echo MONGO_HOSTNAME="localhost" >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           cat .env
-
+          
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v0.2.7
+        
   lint:
     runs-on: ubuntu-latest
     steps:
