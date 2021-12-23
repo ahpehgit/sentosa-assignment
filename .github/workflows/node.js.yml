@@ -87,7 +87,18 @@ jobs:
           resource: https://google.com
           delay: 60000
           verbose: true
-          
+      
+      - name: Create env file
+        run: |
+          echo touch .env
+          echo SERVER="http://localhost:300" >> .env
+          echo MONGO_HOSTNAME="localhost" >> .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
+          cat .env
+      
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v0.2.7
+        
       - name: NPM jest
         run: | 
           npm ci
