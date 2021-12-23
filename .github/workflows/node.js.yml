@@ -1,0 +1,76 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Sentosa Assigment CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    # ###
+    # Linter Tool
+    # ###
+    - name: Lint Code Base
+      uses: docker://github/super-linter:v3
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        DEFAULT_BRANCH: master
+        
+    - name: MongoDB in GitHub Actions
+      # You may pin to the exact commit or the version.
+      # uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df
+      uses: supercharge/mongodb-github-action@1.7.0
+      with:
+        # MongoDB version to use (default "latest")
+        mongodb-version: latest # optional, default is latest
+        # MongoDB replica set name (no replica set by default)
+        mongodb-replica-set: no # optional, default is 
+        # MongoDB port to use (default 27017)
+        mongodb-port: 27017 # optional, default is 27017
+        # MongoDB db to create (default: none)
+        mongodb-db: none # optional, default is 
+        # MongoDB root username (default: none)
+        mongodb-username: none # optional, default is 
+        # MongoDB root password (default: none)
+        mongodb-password: none # optional, default is 
+    
+    - name: Create env file
+      run: |
+        echo touch .env
+        echo SERVER="http://localhost:300" >> .env
+        echo MONGO_HOSTNAME="localhost" >> .env
+        echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
+        cat .env
+        
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Dotenv Action
+      uses: falti/dotenv-action@v0.2.7
+
+    - name: npm install, build and test
+    - run: | 
+        npm ci
+        npm run build --if-present
+        npm test
+      env:
+        CI: true
