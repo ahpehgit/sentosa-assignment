@@ -46,7 +46,7 @@ jobs:
       - name: Create env file
         run: |
           echo touch .env
-          echo SERVER="http://localhost:300" >> .env
+          echo SERVER="http://localhost:3000" >> .env
           echo MONGO_HOSTNAME="localhost" >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           cat .env
@@ -91,7 +91,7 @@ jobs:
       - name: Create env file
         run: |
           echo touch .env
-          echo SERVER="http://localhost:300" >> .env
+          echo SERVER="http://localhost:3000" >> .env
           echo MONGO_HOSTNAME="localhost" >> .env
           echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
           cat .env
