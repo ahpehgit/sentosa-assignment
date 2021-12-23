@@ -5,10 +5,10 @@ name: Sentosa Assigment CI
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  #push:
+  #  branches: [ main ]
+  #pull_request:
+  #  branches: [ main ]
 
 jobs:
   build:
@@ -66,11 +66,42 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v0.2.7
             
-      - name: NPM install dependencies
-        run: npm ci
-      - name: NPM build
-        run: npm run build --if-present
-      - name: Npm start and test  
-        run: npm test
+      - name: NPM install, build and start
+        run: | 
+          npm ci
+          npm run build --if-present
+          npm start
         env:
           CI: true
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Wait on
+        # You may pin to the exact commit or the version.
+        # uses: iFaxity/wait-on-action@63d56fe931cdde4fc340587a28ad8d5c461e7d16
+        uses: iFaxity/wait-on-action@v1
+        with:
+          resource: https://google.com
+          delay: 60000
+          verbose: true
+      
+      - name: Create env file
+        run: |
+          echo touch .env
+          echo SERVER="http://localhost:3000" >> .env
+          echo MONGO_HOSTNAME="localhost" >> .env
+          echo TOKEN_SECRET=${{ secrets.TOKEN_SECRET }} >> .env
+          cat .env
+      
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v0.2.7
+        
+      - name: NPM jest
+        run: | 
+          npm ci
+          npm test
+          wait-on: 'https://google.com'
+          wait-on-timeout: 30000
