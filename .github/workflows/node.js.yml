@@ -11,9 +11,10 @@ on:
   #  branches: [ main ]
 
 jobs:
-  test:
+  build:
+
     runs-on: ubuntu-latest
-    needs: [build]
+
     strategy:
       matrix:
         #node-version: [12.x, 14.x, 16.x]
@@ -23,7 +24,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        
+      - name: MongoDB in GitHub Actions
+        # You may pin to the exact commit or the version.
+        # uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          # MongoDB version to use (default "latest")
+          mongodb-version: latest # optional, default is latest
+          # MongoDB replica set name (no replica set by default)
+          mongodb-replica-set: no # optional, default is 
+          # MongoDB port to use (default 27017)
+          mongodb-port: 27017 # optional, default is 27017
+          # MongoDB db to create (default: none)
+          mongodb-db: none # optional, default is 
+          # MongoDB root username (default: none)
+          mongodb-username: none # optional, default is 
+          # MongoDB root password (default: none)
+          mongodb-password: none # optional, default is 
+    
       - name: Create env file
         run: |
           echo touch .env
@@ -54,31 +73,3 @@ jobs:
           npm test
         env:
           CI: true
-  build:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        #node-version: [12.x, 14.x, 16.x]
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:  
-      - name: MongoDB in GitHub Actions
-        # You may pin to the exact commit or the version.
-        # uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df
-        uses: supercharge/mongodb-github-action@1.7.0
-        with:
-          # MongoDB version to use (default "latest")
-          mongodb-version: latest # optional, default is latest
-          # MongoDB replica set name (no replica set by default)
-          mongodb-replica-set: no # optional, default is 
-          # MongoDB port to use (default 27017)
-          mongodb-port: 27017 # optional, default is 27017
-          # MongoDB db to create (default: none)
-          mongodb-db: none # optional, default is 
-          # MongoDB root username (default: none)
-          mongodb-username: none # optional, default is 
-          # MongoDB root password (default: none)
-          mongodb-password: none # optional, default is 
