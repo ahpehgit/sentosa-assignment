@@ -1,4 +1,4 @@
-const createServer = require('../createServer');
+const createServer = require('../createServer'); // start up server
 
 const axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');
