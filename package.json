@@ -20,7 +20,7 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -28,12 +28,12 @@
     "install": "^0.13.0",
     "jest": "^27.0.6",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.2",
+    "mongoose": "^6.2.3",
     "mongoose-float": "^1.0.4",
     "node-cron": "^3.0.0",
     "npm": "^8.5.1",
     "swagger-ui-express": "^4.1.6",
-    "uuid": "^7.0.3",
+    "uuid": "^8.3.0",
     "uuid-mongodb": "^2.4.4"
   }
 }
