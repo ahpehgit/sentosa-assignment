@@ -15,7 +15,6 @@ module.exports = (dependencies) => {
         if (req.body.password) password = req.body.password;
 
         query.Execute(name, password).then((data) => {
-            console.log('login data:', name, password, data); //debugging github action errors...
             if (data) {
                 res.json(data);
             }
