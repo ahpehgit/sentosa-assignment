@@ -78,3 +78,6 @@ typings/
 
 # Apple meta data
 .DS_Store
+
+# mongo data files
+data/

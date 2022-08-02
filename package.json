@@ -20,13 +20,13 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "axios": "^0.26.0",
+    "axios": "^0.27.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "install": "^0.13.0",
-    "jest": "^27.0.6",
+    "jest": "^28.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "mongoose-float": "^1.0.4",
