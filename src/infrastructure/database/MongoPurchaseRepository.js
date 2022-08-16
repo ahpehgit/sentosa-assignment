@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const MUUID = require('uuid-mongodb');
-const Float = require('mongoose-float').loadType(mongoose, 2);
 const PurchaseRepository = require('../../application/contracts/PurchaseRepository');
 const Purchase = require('../../entities/Purchase');
 const DateJS = require('../../utility/Date');
@@ -12,15 +11,15 @@ const PurchaseSchema = new mongoose.Schema({
     mobile: String,
     email: String,
     promo_code: String,
-    subtotal: Float,
-    paid: Float,
+    subtotal: mongoose.Decimal128 ,
+    paid: mongoose.Decimal128 ,
     purchaseTickets: [{
     	attraction_id: String,
     	quantity: Number,
     	ticket: {
 	        name: String,
 	        guestType: String,
-	        price: Float
+	        price: mongoose.Decimal128 
 	    }
     }]
 });

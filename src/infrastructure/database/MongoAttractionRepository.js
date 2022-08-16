@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Float = require('mongoose-float').loadType(mongoose, 2);
 const AttractionRepository = require('../../application/contracts/AttractionRepository');
 const Attraction = require('../../entities/Attraction');
 
@@ -11,7 +10,7 @@ const AttractionSchema = new mongoose.Schema({
     tickets: [{
         name: String,
         guestType: String,
-        price: Float
+        price: mongoose.Decimal128 
     }]
 });
 
