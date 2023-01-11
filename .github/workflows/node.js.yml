@@ -27,8 +27,8 @@ jobs:
         
       - name: MongoDB in GitHub Actions
         # You may pin to the exact commit or the version.
-        # uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df
-        uses: supercharge/mongodb-github-action@1.7.0
+        # uses: supercharge/mongodb-github-action@538a4d2a1041920c47630172445cb688592d6e51
+        uses: supercharge/mongodb-github-action@1.8.0
         with:
           # MongoDB version to use (default "latest")
           mongodb-version: latest # optional, default is latest
