@@ -29,7 +29,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.1",
     "node-cron": "^3.0.0",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "npm": "^9.7.2",
     "swagger-ui-express": "^4.1.2",
     "uuid": "^9.0.0",

@@ -18,6 +18,7 @@ module.exports = class MongoService extends DBService {
         let url = `mongodb://${process.env.MONGO_HOSTNAME}:27017/${dbName}`; //mongoserver is service name of mongo in dockers
 
         return setTimeout(() => {
+            mongoose.set("strictQuery", false);
             return mongoose.connect(url, { useNewUrlParser: true })
                 .then(async () => {
                 console.log("Mongo Database created!");
