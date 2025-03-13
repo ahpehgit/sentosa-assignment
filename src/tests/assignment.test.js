@@ -93,7 +93,7 @@ jest.setTimeout(5000);
 it('Login with correct credentials', async() => {
     //expect(await Login(authorisedUser, authorisedPassword)).toEqual(expect.not.stringContaining('Unauthorized'));
     let res = '';
-    await new Promise((resolve) => setTimeout(async() => {res = await Login(authorisedUser, authorisedPassword); resolve();}, 500));
+    res = await new Promise((resolve) => setTimeout(async() => {resolve(await Login(authorisedUser, authorisedPassword));}, 500));
     expect(res).not.toBe(401);
 });
 
