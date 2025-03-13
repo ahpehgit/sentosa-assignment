@@ -64,7 +64,7 @@ jobs:
           restore-keys: npm-
     
       - name: Dotenv Action
-        uses: falti/dotenv-action@v0.2.7
+        uses: falti/dotenv-action@v1.1.4
         
       - name: NPM install, build and test
         run: | 
